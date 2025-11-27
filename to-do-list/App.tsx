@@ -11,17 +11,14 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import Checkbox from 'expo-checkbox';
-import TaskForm from './components/TaskForm'; // Importa o componente que criamos antes
+import TaskForm from './components/TaskForm'; 
 
-// ⚠️ ATENÇÃO: Substitua pela URL do seu Codespace (da aba PORTS)
-// Exemplo: 'https://solid-funicular-wr7v7.preview.app.github.dev'
 const API_URL = 'https://to-do-list-back-3pwl.onrender.com'; 
 
 export default function App() {
-  const [tasks, setTasks] = useState<any[]>([]); // Lista de tarefas
-  const [isLoading, setIsLoading] = useState(true); // Loading inicial
+  const [tasks, setTasks] = useState<any[]>([]); 
+  const [isLoading, setIsLoading] = useState(true); 
 
-  // 1. Função para buscar tarefas do Backend
   const fetchTasks = async () => {
     try {
       const response = await axios.get(`${API_URL}/todos`);
@@ -34,33 +31,26 @@ export default function App() {
     }
   };
 
-  // Carrega as tarefas assim que o App abre
   useEffect(() => {
     fetchTasks();
   }, []);
 
-  // 2. Função chamada quando o TaskForm cria uma tarefa com sucesso
   const handleTaskCreated = (newTask: any) => {
-    // Adiciona a nova tarefa na lista visualmente imediatamente
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
-  // 3. Função para deletar tarefa
   const handleDelete = async (id: number) => {
     try {
       await axios.delete(`${API_URL}/todos/${id}`);
-      // Remove da lista visual filtrando pelo ID
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     } catch (error) {
       Alert.alert("Erro", "Falha ao deletar tarefa.");
     }
   };
 
-  // 4. Função para marcar/desmarcar (Toggle)
   const handleToggle = async (id: number, currentStatus: string) => {
     const newStatus = currentStatus === 'opened' ? 'done' : 'opened';
     
-    // Atualização Otimista (Atualiza a tela antes de esperar o servidor)
     setTasks((prevTasks) => 
       prevTasks.map((task) => 
         task.id === id ? { ...task, status: newStatus } : task
@@ -68,16 +58,12 @@ export default function App() {
     );
 
     try {
-      // Envia a atualização para o backend
-      // Nota: Seu backend precisa suportar PUT ou PATCH para isso funcionar 100%
       await axios.put(`${API_URL}/todos/${id}`, { status: newStatus });
     } catch (error) {
       console.error("Erro ao atualizar status", error);
-      // Se der erro, reverte a mudança visual (opcional)
     }
   };
 
-  // --- RENDERIZAÇÃO DE CADA ITEM DA LISTA ---
   const renderItem = ({ item }: { item: any }) => {
     const isDone = item.status === 'done';
 
@@ -101,7 +87,6 @@ export default function App() {
           </TouchableOpacity>
         </View>
 
-        {/* Só mostra a descrição se ela existir */}
         {item.description ? (
           <Text style={[styles.description, isDone && styles.textStruck]}>
             {item.description}
@@ -117,7 +102,6 @@ export default function App() {
       
       <Text style={styles.headerTitle}>To-Do List</Text>
 
-      {/* Componente de Formulário */}
       <TaskForm onSuccess={handleTaskCreated} />
 
       {isLoading ? (
@@ -140,7 +124,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2', // Fundo cinza claro
+    backgroundColor: '#f2f2f2', 
     paddingTop: 50,
     paddingHorizontal: 20,
   },
@@ -157,7 +141,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     fontSize: 16,
   },
-  // Estilos do Card de Tarefa
   card: {
     backgroundColor: '#fff',
     padding: 15,
@@ -167,7 +150,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3, // Sombra no Android
+    elevation: 3, 
   },
   cardHeader: {
     flexDirection: 'row',
@@ -178,7 +161,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1, // Ocupa o espaço restante antes do botão X
+    flex: 1, 
   },
   checkbox: {
     marginRight: 12,
@@ -188,12 +171,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
-    flex: 1, // Quebra linha se necessário
+    flex: 1, 
   },
   description: {
     fontSize: 14,
     color: '#666',
-    marginLeft: 30, // Alinha com o texto do título (pulando o checkbox)
+    marginLeft: 30, 
     marginTop: 4,
   },
   textStruck: {
@@ -201,7 +184,7 @@ const styles = StyleSheet.create({
     color: '#aaa',
   },
   deleteText: {
-    color: '#FF3B30', // Vermelho iOS
+    color: '#FF3B30', 
     fontSize: 18,
     fontWeight: 'bold',
     padding: 5,
