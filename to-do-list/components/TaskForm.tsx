@@ -12,7 +12,7 @@ import {
 import axios from 'axios';
 
 // ⚠️ IMPORTANTE: Substitua pela sua URL do Codespaces (sem a barra no final)
-const API_URL = "https://urban-cod-r4655vrp9xw63p9qx-3000.app.github.dev";
+const API_URL = "https://to-do-list-back-3pwl.onrender.com";
 
 // Agora a prop serve para avisar o pai que "Deu certo" e passar a nova task criada
 interface TaskFormProps {

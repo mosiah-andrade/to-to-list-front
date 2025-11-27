@@ -15,7 +15,7 @@ import TaskForm from './components/TaskForm'; // Importa o componente que criamo
 
 // ⚠️ ATENÇÃO: Substitua pela URL do seu Codespace (da aba PORTS)
 // Exemplo: 'https://solid-funicular-wr7v7.preview.app.github.dev'
-const API_URL = 'https://urban-cod-r4655vrp9xw63p9qx-3000.app.github.dev'; 
+const API_URL = 'https://to-do-list-back-3pwl.onrender.com'; 
 
 export default function App() {
   const [tasks, setTasks] = useState<any[]>([]); // Lista de tarefas
